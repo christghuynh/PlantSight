@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Text-to-Speech App</title>
+  </head>
+  <body>
+    <h1>Text-to-Speech Converter</h1>
+    <form action="/convert" method="post">
+      <textarea name="text" rows="4" cols="50" placeholder="Enter text here..."></textarea><br>
+      <input type="submit" value="Convert to Speech">
+    </form>
+    {% if audio_url %}
+      <h2>Playing your audio:</h2>
+      <audio controls autoplay>
+        <source src="{{ audio_url }}" type="audio/mp3">
+        Your browser does not support the audio element.
+      </audio>
+    {% endif %}
+  </body>
+</html>
