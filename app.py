@@ -20,13 +20,6 @@ model = genai.GenerativeModel(
   system_instruction="You will get an image and tell us if the plant is poisonous or not",
 )
 
-chat_session = model.start_chat(
-  history=[
-  ]
-)
-
-response = chat_session.send_message("INSERT_INPUT_HERE")
-
 print(response.text)
 app = Flask(__name__)
 
