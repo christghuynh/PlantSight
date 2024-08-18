@@ -1,7 +1,7 @@
 from flask import Flask, Response, request, send_file, render_template
 from gtts import gTTS
 import tempfile
-import os
+import time
 import cv2
 import google.generativeai as genai
 import io
@@ -43,11 +43,11 @@ def displayFrames():
         frame = buffer.tobytes()
 
         response = processGemini(frame)
-        print(response)
-        resultText = response.get("text", "No result")
+        print(response.text)
+
 
         yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + frame)
-        yield(b'--frame\r\n' b'Content-Type: text/plain\r\n\r\n' + resultText.encoded())
+        time.sleep(0.05)
 
 def processGemini(frame):
     image = Image.open(io.BytesIO(frame))
