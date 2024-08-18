@@ -53,55 +53,5 @@ def processGemini(frame):
 def index():
     return Response(displayFrames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-'''@app.route('/stream/<filename>')
-def stream(filename):
-    return send_file(os.path.join(tempfile.gettempdir(), filename), mimetype='audio/mp3')'''
-
-
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
-'''from flask import Flask, request, send_file, render_template
-from gtts import gTTS
-import tempfile
-import os
-from ultralytics import YOLO
-
-app = Flask(__name__)
-
-
-@app.route('/')
-def index():
-    return render_template("index.html", audio_url=None)
-
-
-@app.route('/convert', methods=['POST'])
-def convert():
-    text = request.form['text']
-   
-    if not text:
-        return render_template("index.html", audio_url=None)
-
-
-    # Create a gTTS object and save the audio file to a temporary file
-    tts = gTTS(text=text, lang='en')
-    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.mp3')
-    temp_file_path = temp_file.name
-    temp_file.close()
-    tts.save(temp_file_path)
-
-
-    # Provide the path to the generated MP3 file
-    return render_template("index.html", audio_url=f'/stream/{os.path.basename(temp_file_path)}')
-
-
-@app.route('/stream/<filename>')
-def stream(filename):
-    return send_file(os.path.join(tempfile.gettempdir(), filename), mimetype='audio/mp3')
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
-'''
