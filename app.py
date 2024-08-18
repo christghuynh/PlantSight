@@ -1,14 +1,12 @@
-from flask import Flask, Response, request, send_file, render_template
-from gtts import gTTS
-import tempfile
+from flask import Flask, Response
 import time
 import cv2
 import google.generativeai as genai
 import io
 from PIL import Image
+import playsound
 
 video = cv2.VideoCapture(0)
-
 
 genai.configure(api_key="API-KEY") 
 
@@ -43,11 +41,13 @@ def displayFrames():
         frame = buffer.tobytes()
 
         response = processGemini(frame)
+        resultText = response.text
+        if resultText == "Yes.":
+            playsound('./sounds/alert.mp3')
         print(response.text)
 
-
         yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + frame)
-        time.sleep(0.05)
+        time.sleep(0.5)
 
 def processGemini(frame):
     image = Image.open(io.BytesIO(frame))
@@ -59,4 +59,4 @@ def index():
     return Response(displayFrames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host= '0.0.0.0', port=5000)
