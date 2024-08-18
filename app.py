@@ -4,7 +4,7 @@ import cv2
 import google.generativeai as genai
 import io
 from PIL import Image
-import playsound
+from playsound import playsound
 
 video = cv2.VideoCapture(0)
 
@@ -41,10 +41,16 @@ def displayFrames():
         frame = buffer.tobytes()
 
         response = processGemini(frame)
-        resultText = response.text
-        if resultText == "Yes.":
+        print(response)
+
+        try:
+            resultText = response.text
+        except ValueError as e:
+            resultText = "No"
+
+        if "Yes" in resultText:
             playsound('./sounds/alert.mp3')
-        print(response.text)
+        print(resultText)
 
         yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + frame)
         time.sleep(0.5)
